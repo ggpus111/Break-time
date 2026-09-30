@@ -31,7 +31,7 @@ export const CATEGORIES = [
 export const DEFAULT_MENU = [
   {
     id: 'ppopgi', name: '뽑기', category: 'game', sort: 1,
-    desc: '설탕 녹여 모양대로, 성공하면 하나 더!', price: 1000, soldOut: false,
+    desc: '옛날 추억의 뽑기!', price: 1000, soldOut: false,
   },
   {
     id: 'sikhye', name: '식혜', category: 'drink', sort: 1,

@@ -247,7 +247,7 @@ insert into public.counters (id, n) values ('orders', 0) on conflict do nothing;
 -- 기본 메뉴는 메뉴가 하나도 없을 때만 넣어요 (다시 실행해도 관리자 화면에서 고친 메뉴는 그대로)
 insert into public.menu (id, name, category, description, sort, price, options)
 select * from (values
-  ('ppopgi',     '뽑기',        'game',  '설탕 녹여 모양대로, 성공하면 하나 더!', 1, 1000::int, null::jsonb),
+  ('ppopgi',     '뽑기',        'game',  '옛날 추억의 뽑기!', 1, 1000::int, null::jsonb),
   ('sikhye',     '식혜',        'drink', '살얼음 동동, 밥알 동동 달달한 식혜', 1, null::int, null::jsonb),
   ('mixcoffee',  '믹스커피',    'drink', '교무실 선생님 책상 위 그 맛, 종이컵 믹스커피', 2, null::int, null::jsonb),
   ('jjondeugi',  '쫀드기 튀김', 'fried', '연탄불 대신 기름에 튀긴 쫀득바삭 쫀드기', 3, null::int, '["기본 시즈닝", "치즈 시즈닝"]'::jsonb),
@@ -262,7 +262,7 @@ where not exists (select 1 from public.menu);
 -- 이미 메뉴가 있던 프로젝트(위 블록은 건너뜀)를 위해: 뽑기 · 슈감자를 새로 넣고,
 -- 쫀드기 튀김엔 시즈닝 옵션을 걸어 줌. 몇 번을 다시 실행해도 안전해요.
 insert into public.menu (id, name, category, description, sort, price, options)
-values ('ppopgi', '뽑기', 'game', '설탕 녹여 모양대로, 성공하면 하나 더!', 1, 1000, null)
+values ('ppopgi', '뽑기', 'game', '옛날 추억의 뽑기!', 1, 1000, null)
 on conflict (id) do update set
   name = excluded.name, category = excluded.category, description = excluded.description,
   sort = excluded.sort, price = excluded.price, options = excluded.options;

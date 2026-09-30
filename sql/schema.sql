@@ -259,6 +259,25 @@ select * from (values
 ) as v(id, name, category, description, sort, price, options)
 where not exists (select 1 from public.menu);
 
+-- 이미 메뉴가 있던 프로젝트(위 블록은 건너뜀)를 위해: 뽑기 · 슈감자를 새로 넣고,
+-- 쫀드기 튀김엔 시즈닝 옵션을 걸어 줌. 몇 번을 다시 실행해도 안전해요.
+insert into public.menu (id, name, category, description, sort, price, options)
+values ('ppopgi', '뽑기', 'game', '설탕 녹여 모양대로, 성공하면 하나 더!', 1, 1000, null)
+on conflict (id) do update set
+  name = excluded.name, category = excluded.category, description = excluded.description,
+  sort = excluded.sort, price = excluded.price, options = excluded.options;
+
+-- 슈감자 가격은 일부러 비워둬요(준비 중으로 보임) — 가격 정해지면 관리자 화면에서 채우면 됩니다.
+insert into public.menu (id, name, category, description, sort, price, options)
+values ('sugamja', '슈감자', 'fried', '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', 5, null, '["어니언 시즈닝", "허니버터 시즈닝", "치즈 시즈닝"]')
+on conflict (id) do update set
+  name = excluded.name, category = excluded.category, description = excluded.description,
+  sort = excluded.sort, options = excluded.options; -- price는 이미 정해뒀을 수 있으니 안 건드림
+
+update public.menu
+set options = '["기본 시즈닝", "치즈 시즈닝"]'::jsonb
+where id = 'jjondeugi';
+
 -- ▼▼▼ 관리자 이메일: Authentication 에서 만든 계정 이메일로 바꾸세요 (여러 명이면 줄을 추가) ▼▼▼
 insert into public.admins (email) values ('smartcontents@ptu.com') on conflict do nothing;
 

@@ -8,7 +8,7 @@
 
 [![Live Demo](https://img.shields.io/badge/demo-live-2e4638?style=flat-square)](https://boisterous-churros-49b101.netlify.app/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg?style=flat-square)](LICENSE)
-![No build step](https://img.shields.io/badge/build-none-blue?style=flat-square)
+[![No build step](https://img.shields.io/badge/build-none-blue?style=flat-square)](#tech-stack)
 
 [Live Demo](https://boisterous-churros-49b101.netlify.app/) · [Features](#features) · [Getting Started](#getting-started) · [Architecture](#architecture)
 

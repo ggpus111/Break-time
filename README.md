@@ -26,7 +26,8 @@ QR을 찍고 → 메뉴를 담고 → 주문을 넣으면 번호표를 받고, �
 스마트콘텐츠학과 '쉬는시간' 부스가 실제로 운영하기 위해 만들었고, 메뉴·계좌·학과 이름이
 전부 설정 가능해서 다른 부스나 행사에도 그대로 재사용할 수 있게 설계했습니다.
 
-**🔗 Live Demo:** https://smartcontents-breaktime.netlify.app/
+- **🔗 Live Demo (손님 화면):** https://smartcontents-breaktime.netlify.app/
+- **🔧 Admin (교무실):** https://smartcontents-breaktime.netlify.app/gyomusil-7x4m.html
 
 ---
 
@@ -194,10 +195,11 @@ via Supabase's Table Editor → CSV.
   an arbitrary price.
 - Customers can only read their own order (by UUID via `get_order()`); the full order table is
   gated behind admin auth + RLS.
-- The admin page filename is deliberately non-obvious and unlinked from the customer app, but
-  **that stops mattering once this repo is public** — anyone can read the filename from source.
-  If you fork this for your own event, rename `gyomusil-7x4m.html` to something only your team
-  knows.
+- The admin page filename was originally meant to be non-obvious and is never linked from the
+  customer app — but it's linked directly above in this README, and the filename is visible in
+  source either way once the repo is public. The real access control is Supabase Auth login +
+  the `admins` table whitelist (RLS), not the filename. If you fork this for your own event,
+  consider renaming `gyomusil-7x4m.html` anyway and keeping that README link out of your fork.
 - Free Supabase projects auto-pause after 7 days of inactivity — if you provision ahead of your
   event, check the dashboard the day before to make sure it's awake.
 

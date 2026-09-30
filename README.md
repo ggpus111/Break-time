@@ -6,11 +6,11 @@
 
 빌드 도구 없이 정적 HTML/CSS/JS와 Supabase만으로 동작하는 풀스택 주문 시스템입니다.
 
-[![Live Demo](https://img.shields.io/badge/demo-live-2e4638?style=flat-square)](https://smartcontents-breaktime.netlify.app/)
+[![Live Demo](https://img.shields.io/badge/demo-live-2e4638?style=flat-square)](https://boisterous-churros-49b101.netlify.app/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg?style=flat-square)](LICENSE)
 [![No build step](https://img.shields.io/badge/build-none-blue?style=flat-square)]()
 
-[Live Demo](https://smartcontents-breaktime.netlify.app/) · [Features](#features) · [Getting Started](#getting-started) · [Architecture](#architecture)
+[Live Demo](https://boisterous-churros-49b101.netlify.app/) · [Features](#features) · [Getting Started](#getting-started) · [Architecture](#architecture)
 
 </div>
 
@@ -26,8 +26,13 @@ QR을 찍고 → 메뉴를 담고 → 주문을 넣으면 번호표를 받고, �
 스마트콘텐츠학과 '쉬는시간' 부스가 실제로 운영하기 위해 만들었고, 메뉴·계좌·학과 이름이
 전부 설정 가능해서 다른 부스나 행사에도 그대로 재사용할 수 있게 설계했습니다.
 
-- **🔗 Live Demo (손님 화면):** https://smartcontents-breaktime.netlify.app/
-- **🔧 Admin (교무실):** https://smartcontents-breaktime.netlify.app/gyomusil-7x4m.html
+|  | Customer | Admin |
+|---|---|---|
+| **🧪 Demo** (로그인 불필요, 데이터는 브라우저에만 저장) | [바로가기](https://boisterous-churros-49b101.netlify.app/) | [바로가기](https://boisterous-churros-49b101.netlify.app/gyomusil-7x4m.html) |
+| **🚀 실제 운영 사이트** (관리자 로그인 필요) | [바로가기](https://smartcontents-breaktime.netlify.app/) | [바로가기](https://smartcontents-breaktime.netlify.app/gyomusil-7x4m.html) |
+
+Demo는 Supabase 연결 없이 데모 모드로 배포한 별도 사이트라 로그인 없이 바로 눌러볼 수
+있고, 실제 주문 데이터와는 완전히 분리돼 있습니다.
 
 ---
 
@@ -130,8 +135,12 @@ reading the code.
 
 ### Try it without any setup
 
-If `js/supabase-config.js` is empty, the app automatically runs in **demo mode**, persisting
-everything to `localStorage` in your browser. No Supabase account needed:
+Easiest: just open the [hosted demo](https://boisterous-churros-49b101.netlify.app/) — no
+login, no setup.
+
+To run it locally instead: if `js/supabase-config.js` is empty, the app automatically runs in
+**demo mode**, persisting everything to `localStorage` in your browser. No Supabase account
+needed:
 
 ```bash
 git clone <this-repo>

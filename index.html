@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2e4638">
+<title>쉬는시간 주문</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="board">
+  <div class="board-inner">
+    <div class="board-top"><span id="today"></span><span>주번: 스마트콘텐츠학과</span></div>
+    <h1 class="chalk-title">쉬는시간</h1>
+    <p class="chalk-sub">땡땡땡! 종 쳤다, 매점 가자</p>
+    <div class="board-meta"><span id="openChip" class="chip open">불러오는 중</span></div>
+  </div>
+  <div class="chalk-tray"></div>
+</header>
+
+<main class="wrap">
+  <p id="demo" class="demo" hidden>데모 모드: 주문은 이 기기에만 저장돼요.</p>
+  <p id="notice" class="notice" hidden></p>
+  <div id="menu"></div>
+  <section id="mine" class="mine" hidden>
+    <h2>내 번호표</h2>
+    <div id="mineList" class="mine-list"></div>
+  </section>
+  <p class="foot">대동제 · 쉬는시간 부스 · 주문 후 번호가 불리면 부스로 와 주세요</p>
+</main>
+
+<div id="cartbar" class="cartbar" hidden>
+  <div class="cartbar-inner">
+    <div class="cartbar-sum"><small id="cartCount"></small><strong id="cartTotal"></strong></div>
+    <button id="openCheckout" class="btn" type="button">주문하기</button>
+  </div>
+</div>
+
+<div id="checkout" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="coTitle">
+  <form id="coForm" class="sheet-card" novalidate>
+    <div class="sheet-head"><h2 id="coTitle">주문서</h2><button class="x" type="button" data-close aria-label="닫기">×</button></div>
+    <div class="form-paper">
+      <p class="form-title">간 식 주 문 서</p>
+      <ul id="coLines" class="lines"></ul>
+      <div class="total"><span>합계</span><span id="coTotal"></span></div>
+    </div>
+    <div class="field">
+      <span class="label">결제 방법</span>
+      <div class="seg">
+        <input type="radio" name="pay" id="payTransfer" value="transfer" checked><label for="payTransfer">계좌이체</label>
+        <input type="radio" name="pay" id="payCash" value="cash"><label for="payCash">현금 (부스에서)</label>
+      </div>
+      <div id="transferBox">
+        <div id="bankbox" class="bankbox"><div><small>입금할 곳</small><code id="bankText"></code></div><button id="copyBank" class="small-btn" type="button">계좌번호 복사</button></div>
+        <div class="field">
+          <label for="coDepositor">입금자명</label>
+          <input id="coDepositor" type="text" maxlength="20" autocomplete="name" placeholder="통장에 찍히는 이름 그대로 적어 주세요">
+        </div>
+      </div>
+      <p id="payHint" class="hint"></p>
+    </div>
+    <div class="field">
+      <label for="coMemo">요청사항 (선택)</label>
+      <input id="coMemo" type="text" maxlength="100" placeholder="예: 얼음 적게, 소스 따로">
+    </div>
+    <p id="coErr" class="err" hidden></p>
+    <div class="actions">
+      <button id="coSubmit" class="btn red block" type="submit">주문 넣기</button>
+    </div>
+  </form>
+</div>
+
+<div id="ticketSheet" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="tkTitle">
+  <div class="sheet-card">
+    <div class="sheet-head"><h2 id="tkTitle">주문 완료</h2><button class="x" type="button" data-close aria-label="닫기">×</button></div>
+    <div id="ticket" class="ticket">
+      <p class="ticket-label">번 호 표</p>
+      <p id="tkNo" class="ticket-no"></p>
+      <p id="tkTime" class="ticket-name"></p>
+      <div class="ticket-cut"></div>
+      <p id="tkStatus" class="ticket-status"></p>
+      <p id="tkQueue" class="ticket-queue" hidden></p>
+    </div>
+    <ol id="tkSteps" class="steps">
+      <li>주문 접수</li><li>만드는 중</li><li>나왔어요</li>
+    </ol>
+    <div class="form-paper">
+      <ul id="tkLines" class="lines"></ul>
+      <div class="total"><span id="tkPay"></span><span id="tkTotal"></span></div>
+      <div id="tkBank" class="bankbox" hidden><div><small>입금할 곳</small><code id="tkBankText"></code><small id="tkDepositor"></small></div><button id="tkCopy" class="small-btn" type="button">계좌번호 복사</button></div>
+    </div>
+    <p class="hint" style="margin-top:12px">이 화면을 열어 두면 상태가 바로 바뀌어요. 번호가 불리면 부스로 와 주세요.</p>
+    <div class="actions"><button class="btn block" type="button" data-close>메뉴 더 보기</button></div>
+  </div>
+</div>
+
+<script type="module" src="js/customer.js"></script>
+</body>
+</html>

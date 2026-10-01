@@ -120,8 +120,8 @@ swi/
 │  ├─ admin.js            Admin dashboard logic
 │  └─ supabase-config.js  Supabase project URL + anon key (empty = demo mode)
 ├─ sql/
-│  ├─ schema.sql           Tables, RLS policies, RPC functions (run once on Supabase)
-│  └─ analysis.sql         Post-event analytics queries
+│  └─ schema.sql           Tables, RLS policies, RPC functions, and post-event analytics
+│                           queries — everything runs from this one file
 ├─ LICENSE
 └─ README.md
 ```
@@ -192,9 +192,11 @@ side by side.
 | `counters` | Daily order-number counter (auto-resets when the date rolls over) |
 | `admins` | Email whitelist checked by `is_admin()` |
 
-Post-event analytics live in [`sql/analysis.sql`](sql/analysis.sql) — daily revenue, top
-menu items, busiest time slots, pairing analysis, cancellation rate, and more. Export results
-via Supabase's Table Editor → CSV.
+Post-event analytics queries live at the bottom of [`sql/schema.sql`](sql/schema.sql) — daily
+revenue, top menu items, busiest time slots, pairing analysis, cancellation rate, and more.
+They're plain `select`s grouped under a "축제 끝나고" (after the festival) section; run the
+whole file and the SQL Editor shows the last query's result, or copy out just the numbered
+block you want to see. Export results via Supabase's Table Editor → CSV.
 
 ---
 

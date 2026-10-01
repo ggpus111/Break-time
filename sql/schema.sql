@@ -143,6 +143,15 @@ begin
    where c.id = 'orders'
   returning c.n into v_no;
 
+  -- 오늘의 첫 주문이면(= 방금 번호가 리셋됐으면), 전날까지 못 끝낸 주문은 자동으로 취소 처리
+  -- (지워지지는 않아서 분석용 기록은 남지만, 진행 중 목록에선 사라짐)
+  if v_no = 1 then
+    update orders
+       set status = 'canceled'
+     where status in ('new', 'cooking', 'ready')
+       and (created_at at time zone 'Asia/Seoul')::date < v_today;
+  end if;
+
   insert into orders (number, pay, depositor, memo)
   values (v_no, p_pay, p_depositor, left(coalesce(p_memo, ''), 100))
   returning orders.id into v_order;

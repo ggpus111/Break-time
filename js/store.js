@@ -39,7 +39,7 @@ export const DEFAULT_MENU = [
   },
   {
     id: 'mixcoffee', name: '믹스커피', category: 'drink', sort: 2,
-    desc: '교무실 선생님 책상 위 그 맛, 종이컵 믹스커피', price: 1500, soldOut: false,
+    desc: '교무실 선생님 책상 위 그 맛, 달달한 믹스커피', price: 1500, soldOut: false,
   },
   {
     id: 'jjondeugi', name: '쫀드기 튀김', category: 'fried', sort: 3,
@@ -61,7 +61,7 @@ export const DEFAULT_MENU = [
   },
   {
     id: 'bullyang', name: '불량식품', category: 'sweet', sort: 7,
-    desc: '옛날 문방구에서 사 먹던 그 시절 간식 3개 (약과·불량식품 무작위)', price: 1500, soldOut: false,
+    desc: '옛날 문방구에서 사 먹던 그 시절 간식 3개', price: 1500, soldOut: false,
   },
 ];
 

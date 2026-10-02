@@ -47,25 +47,21 @@ export const DEFAULT_MENU = [
     options: ['기본 시즈닝', '치즈 시즈닝'],
   },
   {
-    id: 'fries', name: '감자튀김', category: 'fried', sort: 4,
-    desc: '갓 튀겨서 따끈한 감자튀김', price: 3500, soldOut: false,
-  },
-  {
-    id: 'sugamja', name: '슈감자', category: 'fried', sort: 5,
+    id: 'sugamja', name: '슈감자', category: 'fried', sort: 4,
     desc: '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', price: 3500, soldOut: false,
     options: ['어니언 시즈닝', '허니버터 시즈닝', '치즈 시즈닝'],
   },
   {
-    id: 'dalgona_plain', name: '달고나', category: 'sweet', sort: 6,
+    id: 'dalgona_plain', name: '달고나', category: 'sweet', sort: 5,
     desc: '설탕 녹여 부풀린 바삭달콤 달고나', price: 1000, soldOut: false,
   },
   {
-    id: 'dalgona_success', name: '달고나 (조각성공)', category: 'sweet', sort: 7,
+    id: 'dalgona_success', name: '달고나 뽑기', category: 'sweet', sort: 6,
     desc: '조각성공하면 하나 더! 도전해 보세요', price: 1500, soldOut: false,
   },
   {
-    id: 'bullyang', name: '불량식품', category: 'sweet', sort: 8,
-    desc: '약과 · 불량식품 무작위 3개 (1500원)', price: 1500, soldOut: false,
+    id: 'bullyang', name: '불량식품', category: 'sweet', sort: 7,
+    desc: '옛날 문방구에서 사 먹던 그 시절 간식 3개 (약과·불량식품 무작위)', price: 1500, soldOut: false,
   },
 ];
 

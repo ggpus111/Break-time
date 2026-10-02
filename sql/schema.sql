@@ -260,11 +260,11 @@ select * from (values
   ('sikhye',            '식혜',            'drink', '살얼음 동동, 밥알 동동 달달한 식혜 (한정수량)', 1, 2500::int, null::jsonb),
   ('mixcoffee',         '믹스커피',       'drink', '교무실 선생님 책상 위 그 맛, 종이컵 믹스커피', 2, 1500::int, null::jsonb),
   ('jjondeugi',         '쫀드기 튀김',    'fried', '연탄불 대신 기름에 튀긴 쫀득바삭 쫀드기', 3, 3500::int, '["기본 시즈닝", "치즈 시즈닝"]'::jsonb),
-  ('fries',             '감자튀김',       'fried', '갓 튀겨서 따끈한 감자튀김', 4, null::int, null::jsonb),
+  ('fries',             '감자튀김',       'fried', '갓 튀겨서 따끈한 감자튀김', 4, 3500::int, null::jsonb),
   ('sugamja',           '슈감자',         'fried', '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', 5, 3500::int, '["어니언 시즈닝", "허니버터 시즈닝", "치즈 시즈닝"]'::jsonb),
   ('dalgona_plain',     '달고나',         'sweet', '설탕 녹여 부풀린 바삭달콤 달고나', 6, 1000::int, null::jsonb),
   ('dalgona_success',   '달고나 (조각성공)', 'sweet', '조각성공하면 하나 더! 도전해 보세요', 7, 1500::int, null::jsonb),
-  ('bullyang',          '불량식품',       'sweet', '문방구 앞에서 사 먹던 그 시절 간식 3개 랜덤 구성', 8, null::int, null::jsonb)
+  ('bullyang',          '불량식품',       'sweet', '약과 · 불량식품 무작위 3개 (1500원)', 8, 1500::int, null::jsonb)
 ) as v(id, name, category, description, sort, price, options)
 where not exists (select 1 from public.menu);
 
@@ -282,10 +282,11 @@ values
   ('sikhye', '식혜', 'drink', '살얼음 동동, 밥알 동동 달달한 식혜 (한정수량)', 1, 2500, null),
   ('mixcoffee', '믹스커피', 'drink', '교무실 선생님 책상 위 그 맛, 종이컵 믹스커피', 2, 1500, null),
   ('jjondeugi', '쫀드기 튀김', 'fried', '연탄불 대신 기름에 튀긴 쫀득바삭 쫀드기', 3, 3500, '["기본 시즈닝", "치즈 시즈닝"]'::jsonb),
+  ('fries', '감자튀김', 'fried', '갓 튀겨서 따끈한 감자튀김', 4, 3500, null),
   ('sugamja', '슈감자', 'fried', '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', 5, 3500, '["어니언 시즈닝", "허니버터 시즈닝", "치즈 시즈닝"]'::jsonb),
   ('dalgona_plain', '달고나', 'sweet', '설탕 녹여 부풀린 바삭달콤 달고나', 6, 1000, null),
   ('dalgona_success', '달고나 (조각성공)', 'sweet', '조각성공하면 하나 더! 도전해 보세요', 7, 1500, null),
-  ('bullyang', '불량식품', 'sweet', '문방구 앞에서 사 먹던 그 시절 간식 3개 랜덤 구성', 8, null, null)
+  ('bullyang', '불량식품', 'sweet', '약과 · 불량식품 무작위 3개 (1500원)', 8, 1500, null)
 on conflict (id) do update set
   name = excluded.name, category = excluded.category, description = excluded.description,
   sort = excluded.sort, price = excluded.price, options = excluded.options;

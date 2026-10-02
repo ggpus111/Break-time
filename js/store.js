@@ -48,7 +48,7 @@ export const DEFAULT_MENU = [
   },
   {
     id: 'fries', name: '감자튀김', category: 'fried', sort: 4,
-    desc: '갓 튀겨서 따끈한 감자튀김', price: null, soldOut: false,
+    desc: '갓 튀겨서 따끈한 감자튀김', price: 3500, soldOut: false,
   },
   {
     id: 'sugamja', name: '슈감자', category: 'fried', sort: 5,
@@ -65,7 +65,7 @@ export const DEFAULT_MENU = [
   },
   {
     id: 'bullyang', name: '불량식품', category: 'sweet', sort: 8,
-    desc: '문방구 앞에서 사 먹던 그 시절 간식 3개 랜덤 구성', price: null, soldOut: false,
+    desc: '약과 · 불량식품 무작위 3개 (1500원)', price: 1500, soldOut: false,
   },
 ];
 

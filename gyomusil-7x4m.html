@@ -43,6 +43,7 @@
     <button role="tab" aria-selected="true" data-tab="orders">주문 현황<span id="newBadge" class="badge" hidden></span></button>
     <button role="tab" aria-selected="false" data-tab="menu">메뉴 · 가격</button>
     <button role="tab" aria-selected="false" data-tab="settings">영업 · QR</button>
+    <button role="tab" aria-selected="false" data-tab="schedule">일정</button>
     <button role="tab" aria-selected="false" data-tab="stats">통계</button>
   </nav>
 
@@ -111,6 +112,16 @@
           </div>
         </div>
         <div class="actions"><button id="printBtn" class="btn" type="button">포스터 인쇄</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 일정 -->
+  <section id="tab-schedule" hidden>
+    <div class="panel">
+      <h3>부스 운영진 일정</h3>
+      <div id="scheduleContent" style="font-size: 14px; line-height: 1.8; overflow-y: auto; max-height: 600px;">
+        <!-- 일정이 여기 표시됩니다 -->
       </div>
     </div>
   </section>

@@ -116,8 +116,9 @@ store.onAuth(async (user) => {
 document.querySelector('.tabs').addEventListener('click', (e) => {
   const b = e.target.closest('[data-tab]'); if (!b) return;
   document.querySelectorAll('.tabs [data-tab]').forEach((t) => t.setAttribute('aria-selected', t === b));
-  ['orders', 'menu', 'settings', 'stats'].forEach((t) => ($('tab-' + t).hidden = t !== b.dataset.tab));
+  ['orders', 'menu', 'settings', 'schedule', 'stats'].forEach((t) => ($('tab-' + t).hidden = t !== b.dataset.tab));
   if (b.dataset.tab === 'settings') renderQR();
+  if (b.dataset.tab === 'schedule') renderSchedule();
   if (b.dataset.tab === 'stats') renderStats();
 });
 
@@ -465,4 +466,38 @@ function renderStats() {
   $('statDaily').innerHTML = barChartSVG(statsByDay(live), won);
   $('statMenu').innerHTML = barChartSVG(statsByMenu(live), (v) => `${v}개`);
   $('statPay').innerHTML = barChartSVG(statsByPay(live), (v) => `${v}건`);
+}
+
+// 부스 운영진 일정 표시
+function renderSchedule() {
+  const schedule = `
+<div style="white-space: pre-wrap; font-family: monospace; font-size: 13px; line-height: 1.6;">
+<strong>📅 10월 7일(수)</strong>
+08:00-09:00  박다현, 이유민, 최유찬, 최은우, 이준서, 최성낙
+09:00-10:00  박다현, 최은우, 신예원, 이유민, 박건우
+10:00-11:00  박다현, 최은우, 이유민, 박건우, 신예원, 권아림
+11:00-12:00  박다현, 이나윤, 박현승, 이유민, 박건우, 신예원, 권아림, 오민석
+12:00-13:00  박현승, 최은우, 이유민, 박건우, 신예원
+13:00-14:00  박다현, 이나윤, 최은우, 신예원, 권아림
+14:00-15:00  박다현, 이나윤, 최유찬
+15:00-16:00  이예진, 최예리, 신가영
+16:00-17:00  이예진, 최유찬, 최예리, 신가영
+17:00-18:00  최유찬, 최예리, 최성낙, 최은우, 신가영
+18:00-19:00  이예진, 최유찬, 최예리, 최성낙, 최은우, 신가영
+
+<strong>📅 10월 8일(목)</strong>
+08:00-09:00  박다현, 이준서, 오민석, 신가영, 신재은, 최성낙, 이예진
+09:00-10:00  박다현, 이준서, 오민석, 신가영, 신재은, 최성낙, 이예진
+10:00-11:00  이준서, 오민석, 신가영, 유예은, 전준성, 최성낙
+11:00-12:00  박다현, 신재은, 오민석, 최예리, 신가영, 유예은, 전준성, 최성낙, 이준서
+12:00-13:00  신재은, 최예리, 신가영, 유예은, 전준성, 신예원, 권아림
+13:00-14:00  박다현, 이준서, 오민석, 최예리, 신가영, 유예은, 전준성, 신재은, 신예원, 권아림
+14:00-15:00  박다현, 신재은, 신예원, 권아림
+15:00-16:00  박다현, 이준서, 최예리, 박현승
+16:00-17:00  전준성, 이유민, 박건우, 유예은
+17:00-18:00  박다현, 유예은, 전준성, 이유민
+18:00-19:00  박다현, 이준서, 오민석, 유예은, 전준성, 이유민, 박건우
+</div>
+  `;
+  $('scheduleContent').innerHTML = schedule;
 }

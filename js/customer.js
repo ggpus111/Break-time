@@ -309,10 +309,24 @@ function markMineReady(id) {
 // 번호표 시트를 닫아도(메뉴를 보는 중이어도) 계속 지켜보다가, 나왔을 때 소리 · 진동으로 알려줘요
 function trackOrder(id) {
   if (bgWatchers.has(id)) return;
+  let prevStatus = null;
   const unwatch = store.watchOrder(id, (o) => {
     if (!o) { if (id === currentTicketId) $('tkStatus').textContent = '주문을 찾을 수 없어요'; return; }
     lastOrder.set(id, o);
-    if (o.status === 'ready' && !notified.has(id)) { notified.add(id); ding(); markMineReady(id); }
+
+    // 상태 전환 감지 — 첫 번체는 prevStatus가 null이라 스킵, 이후부터만 알림
+    if (prevStatus !== null && prevStatus !== o.status) {
+      if (o.status === 'ready' && !notified.has(id)) {
+        notified.add(id);
+        ding();
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]); // 진동: 200ms on, 100ms off, 200ms on
+        markMineReady(id);
+      } else if (o.status === 'cooking') {
+        if (navigator.vibrate) navigator.vibrate(100); // 가벼운 진동
+      }
+    }
+    prevStatus = o.status;
+
     if (id === currentTicketId) renderTicket(o);
     if (o.status === 'done' || o.status === 'canceled') {
       // 데모 모드는 store.watchOrder가 콜백을 즉시(동기) 한 번 부르기 때문에,

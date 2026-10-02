@@ -216,6 +216,34 @@ block you want to see. Export results via Supabase's Table Editor → CSV.
 
 ---
 
+## Admin Dashboard Guide
+
+The admin interface (`gyomusil-7x4m.html`) has four tabs:
+
+### 1. 진행 중 (In Progress)
+Monitor live orders as they come in. Actions:
+- **상태 변경** (Change status): Move order through stages — "주문 접수" (received) → "만드는 중" (cooking) → "나왔어요" (ready) → "수령 완료" (done)
+- **결제 확인** (Mark paid): Toggle payment status if payment hasn't been checked yet
+- **중복 의심** (Duplicate flag): If the system flags a possible duplicate order (same menu + price within 5 min), click to acknowledge or dismiss
+- **재조리** (Remake): If a customer says something was wrong, reset status back to "받음" to remake
+
+### 2. 메뉴 (Menu)
+Edit menu items: name, price, description, stock status.
+- **품절** (Sold out): Toggle to hide from the customer app
+- **가격 수정** (Edit price): Update on the fly; changes appear for new orders immediately
+- **옵션 추가** (Options): For items like seasoning choices, manage the list
+
+### 3. 설정 (Settings)
+- **영업 중** (Open/Close): Toggle to "closed" to prevent new orders (e.g., "잠시만 기다려 주세요" message appears on customer app)
+- **공지** (Announcement): Display a message on customer app (e.g., "현재 대기 시간: 20분")
+- **번호 초기화** (Reset counter): Manual reset for order numbers (auto-resets at midnight)
+- **QR 포스터** (Print QR): Generate and print the customer app link for booth signage
+
+### 4. 통계 (Analytics)
+Three live charts (daily revenue, top menu items, payment method breakdown) — updates as orders complete. Hover or zoom to see details. For deeper analysis after the event, use `sql/schema.sql`'s analysis queries (9 blocks at the bottom).
+
+---
+
 ## License
 
 [MIT](LICENSE) © 박다현, 스마트콘텐츠학과 '쉬는시간'

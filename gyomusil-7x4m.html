@@ -113,6 +113,12 @@
         </div>
         <div class="actions"><button id="printBtn" class="btn" type="button">포스터 인쇄</button></div>
       </div>
+      <hr style="margin: 24px 0; border: none; border-top: 1px solid #ccc;">
+      <div class="panel">
+        <h3 style="color: #c23a2b;">⚠️ 데이터 초기화</h3>
+        <p style="color: #666; font-size: 14px; margin-bottom: 16px;">테스트 주문과 통계를 모두 삭제합니다. 이 작업은 되돌릴 수 없습니다.</p>
+        <div class="actions"><button id="wipeBtn" class="btn red" type="button">모든 데이터 초기화</button></div>
+      </div>
     </div>
   </section>
 
@@ -120,9 +126,12 @@
   <section id="tab-schedule" hidden>
     <div class="panel">
       <h3>부스 운영진 일정</h3>
-      <div id="scheduleContent" style="font-size: 14px; line-height: 1.8; overflow-y: auto; max-height: 600px;">
-        <!-- 일정이 여기 표시됩니다 -->
+      <p class="hint">지금 시간대는 노란색으로 표시돼요. 이름을 고르면 그 사람 근무만 보여줘요.</p>
+      <div class="sched-bar">
+        <div class="filter" id="schedDays"></div>
+        <select id="schedWho" aria-label="이름으로 찾기"><option value="">전체 보기</option></select>
       </div>
+      <p id="schedSum" class="sched-sum" hidden></p>      <div id="scheduleContent" class="sched"></div>
     </div>
   </section>
 

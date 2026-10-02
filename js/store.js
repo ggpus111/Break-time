@@ -160,6 +160,7 @@ function createLocal() {
     async deleteMenuItem(id) { write(K.menu, read(K.menu, []).filter((m) => m.id !== id)); },
     async saveSettings(patch) { write(K.settings, { ...read(K.settings, {}), ...patch }); },
     async resetCounter() { write(K.counter, 0); write(K.counterDay, today()); },
+    async resetAllData() { write(K.orders, []); write(K.counter, 0); write(K.counterDay, today()); },
     async seedIfEmpty() {}, // 데모는 위에서 이미 채워 넣었으니 할 일 없음 (Supabase 쪽과 인터페이스만 맞춤)
     async checkAdmin() { return true; }, // 데모는 로그인만 하면 누구나 관리자
   };
@@ -273,6 +274,7 @@ async function createSupabase() {
     async deleteMenuItem(id) { check(await sb.from('menu').delete().eq('id', id)); },
     async saveSettings(patch) { check(await sb.from('settings').update(patch).eq('id', 1)); },
     async resetCounter() { check(await sb.rpc('reset_counter')); },
+    async resetAllData() { check(await sb.rpc('reset_all_data')); },
     async seedIfEmpty() {}, // 처음 데이터는 schema.sql 이 넣어 줌
   };
 }

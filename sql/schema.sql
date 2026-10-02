@@ -210,10 +210,21 @@ begin
   update counters set n = 0, day = (timezone('Asia/Seoul', now()))::date where id = 'orders';
 end $$;
 
+-- ---------- 관리자: 모든 데이터 초기화 (테스트 주문 삭제) ----------
+create or replace function public.reset_all_data() returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not is_admin() then raise exception 'forbidden'; end if;
+  delete from public.order_items where true;  -- Supabase는 where 없는 delete를 막음
+  delete from public.orders where true;
+  update public.counters set n = 0, day = (timezone('Asia/Seoul', now()))::date where id = 'orders';
+end $$;
+
 grant execute on function public.place_order(jsonb, text, text, text) to anon, authenticated;
 grant execute on function public.get_order(uuid)                to anon, authenticated;
 grant execute on function public.is_admin()                     to anon, authenticated;
 grant execute on function public.reset_counter()                to authenticated;
+grant execute on function public.reset_all_data()               to authenticated;
 
 -- ---------- 접근 규칙 (RLS) ----------
 alter table public.menu        enable row level security;

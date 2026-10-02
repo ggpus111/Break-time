@@ -13,32 +13,6 @@
 // 4등(100): 불량식품(2개)
 // 5등(364): 꽝 (총 500개 단위)
 
-// [부스 운영진 일정] — 관리자만 볼 수 있는 정보
-// 10월 7일(수)
-//   08:00-09:00: 박다현, 이유민, 최유찬, 최은우, 이준서, 최성낙
-//   09:00-10:00: 박다현, 최은우, 신예원, 이유민, 박건우
-//   10:00-11:00: 박다현, 최은우, 이유민, 박건우, 신예원, 권아림
-//   11:00-12:00: 박다현, 이나윤, 박현승, 이유민, 박건우, 신예원, 권아림, 오민석
-//   12:00-13:00: 박현승, 최은우, 이유민, 박건우, 신예원
-//   13:00-14:00: 박다현, 이나윤, 최은우, 신예원, 권아림
-//   14:00-15:00: 박다현, 이나윤, 최유찬
-//   15:00-16:00: 이예진, 최예리, 신가영
-//   16:00-17:00: 이예진, 최유찬, 최예리, 신가영
-//   17:00-18:00: 최유찬, 최예리, 최성낙, 최은우, 신가영
-//   18:00-19:00: 이예진, 최유찬, 최예리, 최성낙, 최은우, 신가영
-//
-// 10월 8일(목)
-//   08:00-09:00: 박다현, 이준서, 오민석, 신가영, 신재은, 최성낙, 이예진
-//   09:00-10:00: 박다현, 이준서, 오민석, 신가영, 신재은, 최성낙, 이예진
-//   10:00-11:00: 이준서, 오민석, 신가영, 유예은, 전준성, 최성낙
-//   11:00-12:00: 박다현, 신재은, 오민석, 최예리, 신가영, 유예은, 전준성, 최성낙, 이준서
-//   12:00-13:00: 신재은, 최예리, 신가영, 유예은, 전준성, 신예원, 권아림
-//   13:00-14:00: 박다현, 이준서, 오민석, 최예리, 신가영, 유예은, 전준성, 신재은, 신예원, 권아림
-//   14:00-15:00: 박다현, 신재은, 신예원, 권아림
-//   15:00-16:00: 박다현, 이준서, 최예리, 박현승
-//   16:00-17:00: 전준성, 이유민, 박건우, 유예은
-//   17:00-18:00: 박다현, 유예은, 전준성, 이유민
-//   18:00-19:00: 박다현, 이준서, 오민석, 유예은, 전준성, 이유민, 박건우
 import store, { DEMO, CATEGORIES, STATUS, won } from './store.js';
 
 const $ = (id) => document.getElementById(id);
@@ -468,36 +442,86 @@ function renderStats() {
   $('statPay').innerHTML = barChartSVG(statsByPay(live), (v) => `${v}건`);
 }
 
-// 부스 운영진 일정 표시
-function renderSchedule() {
-  const schedule = `
-<div style="white-space: pre-wrap; font-family: monospace; font-size: 13px; line-height: 1.6;">
-<strong>📅 10월 7일(수)</strong>
-08:00-09:00  박다현, 이유민, 최유찬, 최은우, 이준서, 최성낙
-09:00-10:00  박다현, 최은우, 신예원, 이유민, 박건우
-10:00-11:00  박다현, 최은우, 이유민, 박건우, 신예원, 권아림
-11:00-12:00  박다현, 이나윤, 박현승, 이유민, 박건우, 신예원, 권아림, 오민석
-12:00-13:00  박현승, 최은우, 이유민, 박건우, 신예원
-13:00-14:00  박다현, 이나윤, 최은우, 신예원, 권아림
-14:00-15:00  박다현, 이나윤, 최유찬
-15:00-16:00  이예진, 최예리, 신가영
-16:00-17:00  이예진, 최유찬, 최예리, 신가영
-17:00-18:00  최유찬, 최예리, 최성낙, 최은우, 신가영
-18:00-19:00  이예진, 최유찬, 최예리, 최성낙, 최은우, 신가영
+/* ---------- 부스 운영진 일정 ---------- */
+// 실제 근무표(실명)는 js/schedule.js — GitHub에는 안 올라가고, 없으면 가짜 이름 예시를 씀.
+const SCHEDULE_RAW = (await import('./schedule.js').catch(() => import('./schedule.example.js'))).default;
+const SCHEDULE = SCHEDULE_RAW.map((d) => {
+  const names = (s) => s.split(',').map((x) => x.trim()).filter(Boolean);
+  const rows = d.rows.trim().split('\n').map((line) => {
+    const [h, booth, promo = ''] = line.split('|');
+    return { hour: Number(h), booth: names(booth), promo: names(promo) };
+  });
+  return { ...d, rows };
+});
+const ALL_STAFF = [...new Set(SCHEDULE.flatMap((d) => d.rows.flatMap((r) => [...r.booth, ...r.promo])))].sort((a, b) => a.localeCompare(b, 'ko'));
 
-<strong>📅 10월 8일(목)</strong>
-08:00-09:00  박다현, 이준서, 오민석, 신가영, 신재은, 최성낙, 이예진
-09:00-10:00  박다현, 이준서, 오민석, 신가영, 신재은, 최성낙, 이예진
-10:00-11:00  이준서, 오민석, 신가영, 유예은, 전준성, 최성낙
-11:00-12:00  박다현, 신재은, 오민석, 최예리, 신가영, 유예은, 전준성, 최성낙, 이준서
-12:00-13:00  신재은, 최예리, 신가영, 유예은, 전준성, 신예원, 권아림
-13:00-14:00  박다현, 이준서, 오민석, 최예리, 신가영, 유예은, 전준성, 신재은, 신예원, 권아림
-14:00-15:00  박다현, 신재은, 신예원, 권아림
-15:00-16:00  박다현, 이준서, 최예리, 박현승
-16:00-17:00  전준성, 이유민, 박건우, 유예은
-17:00-18:00  박다현, 유예은, 전준성, 이유민
-18:00-19:00  박다현, 이준서, 오민석, 유예은, 전준성, 이유민, 박건우
-</div>
-  `;
-  $('scheduleContent').innerHTML = schedule;
+let schedDay = (() => {
+  const n = new Date();
+  const i = SCHEDULE.findIndex((d) => d.month === n.getMonth() + 1 && d.day === n.getDate());
+  return i >= 0 ? i : 0;
+})();
+let schedWho = '';
+
+ALL_STAFF.forEach((n) => $('schedWho').add(new Option(n, n)));
+$('schedWho').addEventListener('change', (e) => { schedWho = e.target.value; renderSchedule(); });
+$('schedDays').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-day]'); if (!b) return;
+  schedDay = Number(b.dataset.day); renderSchedule();
+});
+setInterval(() => { if (!$('tab-schedule').hidden) renderSchedule(); }, 60_000);
+
+function renderSchedule() {
+  const now = new Date();
+  const d = SCHEDULE[schedDay];
+  const isToday = d.month === now.getMonth() + 1 && d.day === now.getDate();
+  const h2 = (h) => String(h).padStart(2, '0') + ':00';
+
+  $('schedDays').innerHTML = SCHEDULE.map((x, i) =>
+    `<button type="button" data-day="${i}" aria-pressed="${i === schedDay}">${esc(x.label)}</button>`).join('');
+
+  const chips = (list, kind) => list.length
+    ? list.map((n) => `<span class="sched-name ${kind}${n === schedWho ? ' me' : ''}">${esc(n)}</span>`).join('')
+    : '<span class="sched-empty">—</span>';
+
+  $('scheduleContent').innerHTML = d.rows.map((r, i) => {
+    const mine = schedWho && (r.booth.includes(schedWho) || r.promo.includes(schedWho));
+    const tag = i === 0 ? '오픈' : i === d.rows.length - 1 ? '마감' : '';
+    const cls = ['sched-row', isToday && now.getHours() === r.hour ? 'now' : '', schedWho && !mine ? 'dim' : ''].join(' ');
+    return `
+      <div class="${cls}">
+        <div class="sched-time">${h2(r.hour)}<small>~ ${h2(r.hour + 1)}</small>${tag ? `<em>${tag}</em>` : ''}</div>
+        <div class="sched-group"><span class="sched-tag booth">부스 ${r.booth.length}</span><div>${chips(r.booth, 'booth')}</div></div>
+        <div class="sched-group${r.promo.length ? '' : ' empty'}"><span class="sched-tag promo">홍보 ${r.promo.length}</span><div>${chips(r.promo, 'promo')}</div></div>
+      </div>`;
+  }).join('');
+
+  const sum = $('schedSum');
+  if (schedWho) {
+    const b = d.rows.filter((r) => r.booth.includes(schedWho)).length;
+    const p = d.rows.filter((r) => r.promo.includes(schedWho)).length;
+    sum.textContent = b + p ? `${schedWho} · ${d.label}: 부스 ${b}시간, 홍보 ${p}시간` : `${schedWho} 님은 ${d.label}에 근무가 없어요`;
+    sum.hidden = false;
+  } else sum.hidden = true;
 }
+
+// 데이터 초기화 (테스트 주문 삭제)
+async function resetAllData() {
+  const confirmed = confirm('⚠️ 경고: 모든 주문 데이터를 삭제합니다.\n이 작업은 되돌릴 수 없습니다.\n정말 진행할까요?');
+  if (!confirmed) return;
+
+  const doubleCheck = confirm('정말정말 삭제할까요?\n(이 경고창을 다시 한 번 확인해주세요)');
+  if (!doubleCheck) return;
+
+  $('wipeBtn').disabled = true;
+  try {
+    await store.resetAllData();
+    alert('✓ 모든 주문 데이터가 삭제됐어요');
+    location.reload();
+  } catch (ex) {
+    console.error(ex);
+    alert('오류: ' + (ex.message || ex));
+    $('wipeBtn').disabled = false;
+  }
+}
+
+$('wipeBtn').addEventListener('click', resetAllData);

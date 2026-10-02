@@ -37,29 +37,43 @@ Demo는 Supabase 연결 없이 데모 모드로 배포한 별도 사이트라 �
 
 ## Features
 
-### Customer app (`index.html`)
+### 🙋 손님 화면 (`index.html`)
 
-- 교시별로 분류된 메뉴판, 실시간 품절 / 준비중 상태
-- 시즈닝처럼 **옵션을 하나 선택해야 하는 메뉴** 지원 (메뉴별로 옵션마다 독립된 담기 버튼)
-- 계좌이체 / 현금 선택, 합계는 항상 서버에서 재계산 (클라이언트 금액 조작 불가)
-- 실시간 주문 상태 추적 (접수 → 조리 중 → 준비 완료) + 대기 인원(앞에 몇 명 남았는지) 표시
-- 백그라운드 상태 추적: 화면을 나가도 주문이 계속 감시되고, 준비 완료 시 소리 + 진동으로
-  알림 (별도 푸시 권한 없이 탭이 열려 있는 동안 동작)
-- 클라이언트 사이드 중복 주문 감지 및 확인 절차
+QR을 찍으면 바로 열리는 주문 화면입니다. 앱 설치나 회원가입이 필요 없습니다.
 
-### Admin dashboard (`gyomusil-7x4m.html`)
+| 기능 | 설명 |
+|---|---|
+| 📋 교시별 메뉴판 | "0교시 뽑기 · 1교시 마실거리 · 2교시 튀김 · 3교시 추억의 간식"처럼 시간표 콘셉트로 분류 |
+| 🧂 옵션 선택 메뉴 | 슈감자 시즈닝처럼 하나를 골라야 하는 메뉴는 옵션마다 따로 담기 |
+| 🚫 품절 / 준비 중 | 관리자가 품절 처리하면 손님 화면에 즉시 "품절" 도장이 찍힘 |
+| 💳 결제 방법 선택 | 계좌이체(입금자명 입력, 계좌번호 복사) 또는 현금 |
+| 🎫 번호표 발급 | 주문하면 그날 기준 001번부터 번호표가 나옴 |
+| ⏱️ 실시간 상태 확인 | 접수 → 만드는 중 → 나왔어요, 그리고 **내 앞에 몇 명** 남았는지 표시 |
+| 🔔 완료 알림 | 음식이 나오면 소리 + 진동으로 알려줌 (화면을 다른 데 둬도 탭만 열려 있으면 동작) |
+| ⚠️ 중복 주문 방지 | 90초 안에 똑같은 주문을 또 누르면 "방금 같은 주문 넣었어요" 하고 한 번 더 확인 |
+| 📢 알림장 | 관리자가 쓴 공지("감자는 5분 걸려요" 등)가 메뉴판 위에 표시 |
+| 🔒 영업 종료 | 관리자가 마감하면 주문 버튼이 잠김 |
 
-- Supabase Auth 기반 로그인, DB의 `admins` 화이트리스트로 접근 제어
-- 실시간 주문 피드 + 새 주문 알림음
-- 원클릭 상태 전이 (입금 확인 → 조리 시작 → 호출 → 전달 완료)
-- 메뉴 CRUD (이름/가격/품절/옵션)를 코드 배포 없이 즉시 반영
-- 휴리스틱 기반 중복 주문 탐지 (메뉴 구성 + 금액 + 시간 근접도)
-- 날짜 경계에서 자동 리셋되는 일별 매출/주문 수 집계
-- 날짜가 바뀌면 자동으로 초기화되는 순번 카운터, 이때 전날까지 못 끝낸 주문은 자동 취소
-  (기록은 남고, 진행 중 목록에서만 사라짐)
-- QR 포스터 생성 및 인쇄
-- 외부 차트 라이브러리 없이 순수 SVG로 그리는 통계 대시보드 (일별 매출, 메뉴별 판매량,
-  결제 수단 비율)
+### 🧑‍🏫 관리자 화면 "교무실" (`gyomusil-7x4m.html`)
+
+부스 운영진만 로그인해서 쓰는 화면입니다. 탭 5개로 구성돼 있습니다.
+
+| 탭 | 기능 |
+|---|---|
+| **주문 현황** | 실시간 주문 카드 + 새 주문 알림음 · 버튼 한 번으로 상태 변경 (만들기 시작 → 다 됐어요·호출 → 전달 완료) · 입금 확인 체크 · 실수 방지용 2번 눌러야 되는 주문 취소 · 5분 안에 똑같은 주문이 또 들어오면 "중복 의심" 표시 · 오늘 주문 수 / 오늘 매출 |
+| **메뉴 · 가격** | 메뉴 추가·삭제, 이름·가격·설명·카테고리·옵션 수정, 품절 on/off — 저장하면 손님 화면에 바로 반영 |
+| **영업 · QR** | 영업 시작/마감 스위치 · 알림장(공지) · 입금 계좌 · 주문 번호 초기화 · QR 포스터 생성/인쇄 · **모든 데이터 초기화** (테스트 주문 삭제) |
+| **일정** | 부스 운영진 근무표 — 날짜별 시간대마다 부스/홍보 담당자, 지금 시간대 강조, 이름을 고르면 그 사람 근무만 보기 + 근무 시간 합계 |
+| **통계** | 일별 매출, 메뉴별 판매량, 결제 수단 비율 막대그래프 (외부 라이브러리 없이 SVG로 직접 그림) |
+
+### ⚙️ 자동으로 처리되는 것들
+
+- **가격은 서버가 계산** — 손님 폰에서 보낸 금액은 무시하고, DB의 메뉴 가격으로 합계를 다시 계산
+- **날짜가 바뀌면 번호 자동 리셋** — 둘째 날 첫 주문은 다시 001번 (한국 시간 기준). 이때 전날 못 끝낸
+  주문은 자동 취소 처리 (기록은 남음)
+- **실시간 동기화** — 주문/메뉴/설정이 바뀌면 모든 화면에 바로 반영 (Supabase Realtime + 끊겼을 때를
+  대비한 주기적 새로고침)
+- **데모 모드** — Supabase 설정이 비어 있으면 브라우저 안(localStorage)에서만 돌아가는 체험판으로 동작
 
 ---
 
@@ -88,6 +102,8 @@ Demo는 Supabase 연결 없이 데모 모드로 배포한 별도 사이트라 �
   않습니다.
 - **`get_order()`** — 손님이 자기 주문 하나만 조회할 때 호출. 주문의 UUID를 알아야만
   조회할 수 있어서 다른 손님의 주문은 볼 수 없습니다.
+- **`reset_counter()` / `reset_all_data()`** — 관리자 전용. 각각 주문 번호만 초기화 / 모든 주문
+  기록 삭제. 함수 안에서 `is_admin()`을 다시 확인합니다.
 - 관리자 전용 테이블(`orders`, `order_items`, `counters`, `admins`)은 Supabase Auth 로그인 +
   `admins` 테이블 화이트리스트 확인(`is_admin()`)을 통과해야만 RLS 정책으로 접근이
   허용됩니다.
@@ -118,6 +134,8 @@ swi/
 │  ├─ store.js            Data layer — abstracts Supabase vs. demo (localStorage) backend
 │  ├─ customer.js         Customer app logic
 │  ├─ admin.js            Admin dashboard logic
+│  ├─ schedule.example.js Staff schedule format (fake names) — copy to schedule.js (git-ignored)
+│                          for the real one; falls back to this example when missing
 │  └─ supabase-config.js  Supabase project URL + anon key (empty = demo mode)
 ├─ sql/
 │  └─ schema.sql           Tables, RLS policies, RPC functions, and post-event analytics
@@ -218,29 +236,23 @@ block you want to see. Export results via Supabase's Table Editor → CSV.
 
 ## Admin Dashboard Guide
 
-The admin interface (`gyomusil-7x4m.html`) has four tabs:
+축제 당일 운영 순서 기준으로 정리했습니다.
 
-### 1. 진행 중 (In Progress)
-Monitor live orders as they come in. Actions:
-- **상태 변경** (Change status): Move order through stages — "주문 접수" (received) → "만드는 중" (cooking) → "나왔어요" (ready) → "수령 완료" (done)
-- **결제 확인** (Mark paid): Toggle payment status if payment hasn't been checked yet
-- **중복 의심** (Duplicate flag): If the system flags a possible duplicate order (same menu + price within 5 min), click to acknowledge or dismiss
-- **재조리** (Remake): If a customer says something was wrong, reset status back to "받음" to remake
+**축제 전**
+1. **영업 · QR** 탭에서 입금 계좌 확인 → QR 포스터 인쇄
+2. 테스트 주문을 충분히 넣어 본 뒤, **영업 · QR → 모든 데이터 초기화**로 테스트 기록 삭제
+   (경고창 2번 확인 후 삭제. 메뉴·설정·관리자 계정은 그대로 유지)
 
-### 2. 메뉴 (Menu)
-Edit menu items: name, price, description, stock status.
-- **품절** (Sold out): Toggle to hide from the customer app
-- **가격 수정** (Edit price): Update on the fly; changes appear for new orders immediately
-- **옵션 추가** (Options): For items like seasoning choices, manage the list
+**운영 중**
+1. 새 주문이 오면 알림음 + "주문 현황" 탭에 빨간 숫자 배지
+2. 돈을 확인하면 **입금 확인**(계좌이체) / **현금 받음**(현금) 버튼 — 이걸 눌러야 만들기를 시작할 수 있음
+3. **만들기 시작** → **다 됐어요 · 호출** (손님 폰에 소리·진동 알림) → **전달 완료**
+4. 재료가 떨어지면 **메뉴 · 가격** 탭에서 품절 처리, 대기가 길면 알림장에 공지
+5. 누가 근무 중인지는 **일정** 탭에서 확인 (지금 시간대가 노란색으로 표시)
 
-### 3. 설정 (Settings)
-- **영업 중** (Open/Close): Toggle to "closed" to prevent new orders (e.g., "잠시만 기다려 주세요" message appears on customer app)
-- **공지** (Announcement): Display a message on customer app (e.g., "현재 대기 시간: 20분")
-- **번호 초기화** (Reset counter): Manual reset for order numbers (auto-resets at midnight)
-- **QR 포스터** (Print QR): Generate and print the customer app link for booth signage
-
-### 4. 통계 (Analytics)
-Three live charts (daily revenue, top menu items, payment method breakdown) — updates as orders complete. Hover or zoom to see details. For deeper analysis after the event, use `sql/schema.sql`'s analysis queries (9 blocks at the bottom).
+**둘째 날 / 끝나고**
+- 주문 번호는 날짜가 바뀌면 자동으로 001번부터 다시 시작 (수동으로 하려면 "번호 초기화")
+- **통계** 탭에서 매출 확인, 더 자세한 분석은 `sql/schema.sql` 맨 아래 분석 쿼리 9개 사용
 
 ---
 

@@ -35,15 +35,15 @@ export const DEFAULT_MENU = [
   },
   {
     id: 'sikhye', name: '식혜', category: 'drink', sort: 1,
-    desc: '살얼음 동동, 밥알 동동 달달한 식혜', price: null, soldOut: false,
+    desc: '살얼음 동동, 밥알 동동 달달한 식혜 (한정수량)', price: 2500, soldOut: false,
   },
   {
     id: 'mixcoffee', name: '믹스커피', category: 'drink', sort: 2,
-    desc: '교무실 선생님 책상 위 그 맛, 종이컵 믹스커피', price: null, soldOut: false,
+    desc: '교무실 선생님 책상 위 그 맛, 종이컵 믹스커피', price: 1500, soldOut: false,
   },
   {
     id: 'jjondeugi', name: '쫀드기 튀김', category: 'fried', sort: 3,
-    desc: '연탄불 대신 기름에 튀긴 쫀득바삭 쫀드기', price: null, soldOut: false,
+    desc: '연탄불 대신 기름에 튀긴 쫀득바삭 쫀드기', price: 3500, soldOut: false,
     options: ['기본 시즈닝', '치즈 시즈닝'],
   },
   {
@@ -52,20 +52,20 @@ export const DEFAULT_MENU = [
   },
   {
     id: 'sugamja', name: '슈감자', category: 'fried', sort: 5,
-    desc: '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', price: null, soldOut: false,
+    desc: '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', price: 3500, soldOut: false,
     options: ['어니언 시즈닝', '허니버터 시즈닝', '치즈 시즈닝'],
   },
   {
-    id: 'dalgona', name: '달고나', category: 'sweet', sort: 6,
-    desc: '설탕 녹여 부풀린 바삭달콤 달고나', price: null, soldOut: false,
+    id: 'dalgona_plain', name: '달고나', category: 'sweet', sort: 6,
+    desc: '설탕 녹여 부풀린 바삭달콤 달고나', price: 1000, soldOut: false,
   },
   {
-    id: 'yakgwa', name: '약과', category: 'sweet', sort: 7,
-    desc: '쫀득하고 달콤한 약과', price: null, soldOut: false,
+    id: 'dalgona_success', name: '달고나 (조각성공)', category: 'sweet', sort: 7,
+    desc: '조각성공하면 하나 더! 도전해 보세요', price: 1500, soldOut: false,
   },
   {
     id: 'bullyang', name: '불량식품', category: 'sweet', sort: 8,
-    desc: '문방구 앞에서 사 먹던 그 시절 간식', price: null, soldOut: false,
+    desc: '문방구 앞에서 사 먹던 그 시절 간식 3개 랜덤 구성', price: null, soldOut: false,
   },
 ];
 

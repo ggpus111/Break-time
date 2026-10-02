@@ -257,14 +257,14 @@ insert into public.counters (id, n) values ('orders', 0) on conflict do nothing;
 insert into public.menu (id, name, category, description, sort, price, options)
 select * from (values
   ('ppopgi',     '뽑기',        'game',  '옛날 추억의 뽑기!', 1, 1000::int, null::jsonb),
-  ('sikhye',     '식혜',        'drink', '살얼음 동동, 밥알 동동 달달한 식혜', 1, null::int, null::jsonb),
-  ('mixcoffee',  '믹스커피',    'drink', '교무실 선생님 책상 위 그 맛, 종이컵 믹스커피', 2, null::int, null::jsonb),
-  ('jjondeugi',  '쫀드기 튀김', 'fried', '연탄불 대신 기름에 튀긴 쫀득바삭 쫀드기', 3, null::int, '["기본 시즈닝", "치즈 시즈닝"]'::jsonb),
-  ('fries',      '감자튀김',    'fried', '갓 튀겨서 따끈한 감자튀김', 4, null::int, null::jsonb),
-  ('sugamja',    '슈감자',      'fried', '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', 5, null::int, '["어니언 시즈닝", "허니버터 시즈닝", "치즈 시즈닝"]'::jsonb),
-  ('dalgona',    '달고나',      'sweet', '설탕 녹여 부풀린 바삭달콤 달고나', 6, null::int, null::jsonb),
-  ('yakgwa',     '약과',        'sweet', '쫀득하고 달콤한 약과', 7, null::int, null::jsonb),
-  ('bullyang',   '불량식품',    'sweet', '문방구 앞에서 사 먹던 그 시절 간식', 8, null::int, null::jsonb)
+  ('sikhye',            '식혜',            'drink', '살얼음 동동, 밥알 동동 달달한 식혜 (한정수량)', 1, 2500::int, null::jsonb),
+  ('mixcoffee',         '믹스커피',       'drink', '교무실 선생님 책상 위 그 맛, 종이컵 믹스커피', 2, 1500::int, null::jsonb),
+  ('jjondeugi',         '쫀드기 튀김',    'fried', '연탄불 대신 기름에 튀긴 쫀득바삭 쫀드기', 3, 3500::int, '["기본 시즈닝", "치즈 시즈닝"]'::jsonb),
+  ('fries',             '감자튀김',       'fried', '갓 튀겨서 따끈한 감자튀김', 4, null::int, null::jsonb),
+  ('sugamja',           '슈감자',         'fried', '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', 5, 3500::int, '["어니언 시즈닝", "허니버터 시즈닝", "치즈 시즈닝"]'::jsonb),
+  ('dalgona_plain',     '달고나',         'sweet', '설탕 녹여 부풀린 바삭달콤 달고나', 6, 1000::int, null::jsonb),
+  ('dalgona_success',   '달고나 (조각성공)', 'sweet', '조각성공하면 하나 더! 도전해 보세요', 7, 1500::int, null::jsonb),
+  ('bullyang',          '불량식품',       'sweet', '문방구 앞에서 사 먹던 그 시절 간식 3개 랜덤 구성', 8, null::int, null::jsonb)
 ) as v(id, name, category, description, sort, price, options)
 where not exists (select 1 from public.menu);
 
@@ -276,16 +276,22 @@ on conflict (id) do update set
   name = excluded.name, category = excluded.category, description = excluded.description,
   sort = excluded.sort, price = excluded.price, options = excluded.options;
 
--- 슈감자 가격은 일부러 비워둬요(준비 중으로 보임) — 가격 정해지면 관리자 화면에서 채우면 됩니다.
+-- 식혜 · 믹스커피 · 쫀드기 · 슈감자 가격 + 달고나 분리 + 약과 제거 + 불량식품 업데이트
 insert into public.menu (id, name, category, description, sort, price, options)
-values ('sugamja', '슈감자', 'fried', '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', 5, null, '["어니언 시즈닝", "허니버터 시즈닝", "치즈 시즈닝"]')
+values
+  ('sikhye', '식혜', 'drink', '살얼음 동동, 밥알 동동 달달한 식혜 (한정수량)', 1, 2500, null),
+  ('mixcoffee', '믹스커피', 'drink', '교무실 선생님 책상 위 그 맛, 종이컵 믹스커피', 2, 1500, null),
+  ('jjondeugi', '쫀드기 튀김', 'fried', '연탄불 대신 기름에 튀긴 쫀득바삭 쫀드기', 3, 3500, '["기본 시즈닝", "치즈 시즈닝"]'::jsonb),
+  ('sugamja', '슈감자', 'fried', '쉐이크 감자, 시즈닝 골라서 톡톡 흔들어 먹기', 5, 3500, '["어니언 시즈닝", "허니버터 시즈닝", "치즈 시즈닝"]'::jsonb),
+  ('dalgona_plain', '달고나', 'sweet', '설탕 녹여 부풀린 바삭달콤 달고나', 6, 1000, null),
+  ('dalgona_success', '달고나 (조각성공)', 'sweet', '조각성공하면 하나 더! 도전해 보세요', 7, 1500, null),
+  ('bullyang', '불량식품', 'sweet', '문방구 앞에서 사 먹던 그 시절 간식 3개 랜덤 구성', 8, null, null)
 on conflict (id) do update set
   name = excluded.name, category = excluded.category, description = excluded.description,
-  sort = excluded.sort, options = excluded.options; -- price는 이미 정해뒀을 수 있으니 안 건드림
+  sort = excluded.sort, price = excluded.price, options = excluded.options;
 
-update public.menu
-set options = '["기본 시즈닝", "치즈 시즈닝"]'::jsonb
-where id = 'jjondeugi';
+-- 약과는 더 이상 사용하지 않으니 선택사항: 아래 한 줄로 삭제 (선택)
+-- delete from public.menu where id = 'yakgwa';
 
 -- ▼▼▼ 관리자 이메일: Authentication 에서 만든 계정 이메일로 바꾸세요 (여러 명이면 줄을 추가) ▼▼▼
 insert into public.admins (email) values ('smartcontents@ptu.com') on conflict do nothing;
